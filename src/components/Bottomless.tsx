@@ -16,11 +16,19 @@ export function Bottomless() {
             title="Great food, free-flowing drinks & good company"
             intro="Gather your friends, choose a drinks package and pair it with brunch during the day or Spanish tapas in the evening."
           />
-          <div className="bottomless__photos" aria-hidden="true">
-            {photos.bottomless.map((p, i) => (
-              <Img key={p.image} name={p.image} alt="" sizes="(min-width: 960px) 18vw, 45vw" className={`bottomless__photo bottomless__photo--${i}`} />
-            ))}
-          </div>
+          {photos.bottomless.length > 0 && (
+            <div className="bottomless__photos">
+              {photos.bottomless.map((p, i) => (
+                <Img
+                  key={p.image}
+                  name={p.image}
+                  alt={p.alt}
+                  sizes="(min-width: 960px) 18vw, 45vw"
+                  className={`bottomless__photo bottomless__photo--${i}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <ol className="packages">

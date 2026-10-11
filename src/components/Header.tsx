@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { showGallery } from '../data/gallery'
 import { ModeSwitch } from './ModeSwitch'
 
 const NAV = [
@@ -8,7 +9,7 @@ const NAV = [
   { href: '#evenings', label: 'Evenings' },
   { href: '#gallery', label: 'Gallery' },
   { href: '#find-us', label: 'Find us' },
-]
+].filter((n) => n.href !== '#gallery' || showGallery)
 
 const base = import.meta.env.BASE_URL
 

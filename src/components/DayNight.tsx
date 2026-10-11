@@ -3,6 +3,7 @@ import type { MouseEvent } from 'react'
 import { photos } from '../data/photos'
 import { useMode } from '../context/mode'
 import type { Mode } from '../lib/time'
+import { BotanicalPanel } from './Botanical'
 import { Img } from './Img'
 
 const PANELS: {
@@ -61,17 +62,21 @@ export function DayNight() {
                 transition={{ type: 'spring', stiffness: 160, damping: 24, delay: i * 0.08 }}
                 aria-labelledby={`mood-${p.mode}`}
               >
-                <div className="mood__photos">
-                  {set.map((s, j) => (
-                    <Img
-                      key={s.image}
-                      name={s.image}
-                      alt={s.alt}
-                      sizes="(min-width: 960px) 25vw, 50vw"
-                      className={`mood__photo mood__photo--${j}`}
-                    />
-                  ))}
-                </div>
+                {set.length > 0 ? (
+                  <div className="mood__photos">
+                    {set.map((s, j) => (
+                      <Img
+                        key={s.image}
+                        name={s.image}
+                        alt={s.alt}
+                        sizes="(min-width: 960px) 25vw, 50vw"
+                        className={`mood__photo mood__photo--${j}`}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <BotanicalPanel tone={p.mode} className="mood__panel" />
+                )}
                 <div className="mood__body">
                   <p className="mood__when">{p.when}</p>
                   <h3 id={`mood-${p.mode}`} className="mood__title">

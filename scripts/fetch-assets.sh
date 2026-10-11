@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 # Downloads Flora's own brand assets and photos from florasw17.com into public/images/.
 # Each entry is "local-name|primary-path|fallback-path" (fallback optional).
-# The host rate-limits bursts, so requests are spaced out (DELAY seconds) and 429s back off.
+# Run it from a home or office connection: the site's CDN answers 429 to cloud and CI IPs.
+# Requests are spaced out (DELAY seconds) and 429s back off. SKIP_EXISTING=1 keeps files already present.
 set -uo pipefail
 
 BASE="https://florasw17.com/wp-content/uploads"
 OUT="$(cd "$(dirname "$0")/.." && pwd)/public/images"
 UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
-DELAY="${DELAY:-3}"
+DELAY="${DELAY:-2}"
+SKIP_EXISTING="${SKIP_EXISTING:-0}"
 mkdir -p "$OUT"
 
 assets=(
@@ -51,7 +53,7 @@ fetch() {
 failed=0
 for entry in "${assets[@]}"; do
   IFS='|' read -r name primary fallback <<<"$entry"
-  if [[ -s "$OUT/$name" ]]; then
+  if [[ "$SKIP_EXISTING" == 1 && -s "$OUT/$name" ]]; then
     echo "have  $name"
   elif fetch "$BASE/$primary" "$OUT/$name"; then
     echo "ok    $name"

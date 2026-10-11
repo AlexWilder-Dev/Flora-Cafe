@@ -18,9 +18,11 @@ const COCKTAILS = ['Pornstar Martini', 'Aperol Spritz', 'Espresso Martini', 'Flo
 export function Evenings() {
   return (
     <section id="evenings" className="section evenings" aria-labelledby="evenings-title">
-      <div className="evenings__media" aria-hidden="true">
-        <Img name={photos.evenings.image} alt="" sizes="100vw" />
-      </div>
+      {photos.evenings && (
+        <div className="evenings__media" aria-hidden="true">
+          <Img name={photos.evenings.image} alt="" sizes="100vw" style={{ objectPosition: photos.evenings.position }} />
+        </div>
+      )}
       <div className="container evenings__inner">
         <SectionHeading
           id="evenings-title"

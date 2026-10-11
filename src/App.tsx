@@ -8,6 +8,7 @@ import { Evenings } from './components/Evenings'
 import { FindUs } from './components/FindUs'
 import { Footer } from './components/Footer'
 import { Gallery } from './components/Gallery'
+import { showGallery } from './data/gallery'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Menu } from './components/Menu'
@@ -29,7 +30,7 @@ export default function App() {
           <Menu />
           <Bottomless />
           <Evenings />
-          <Gallery />
+          {showGallery && <Gallery />}
           <Booking />
           <Delivery />
           <FindUs />

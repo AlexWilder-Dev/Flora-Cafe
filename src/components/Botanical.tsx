@@ -14,13 +14,16 @@ export function Sprig({ className }: { className?: string }) {
   )
 }
 
-export function Divider() {
+/**
+ * Stands in for a photo slot that has no matching photo yet: brand colours
+ * and line-drawn foliage, never a drawing of the venue or food.
+ */
+export function BotanicalPanel({ tone, className = '' }: { tone: 'day' | 'evening'; className?: string }) {
   return (
-    <svg className="divider" viewBox="0 0 160 16" aria-hidden="true" focusable="false">
-      <g fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
-        <path d="M2 8h60M98 8h60" />
-        <path d="M80 2c-6 2-9 4-9 6s3 4 9 6c6-2 9-4 9-6s-3-4-9-6Z" />
-      </g>
-    </svg>
+    <div className={`botanical-panel botanical-panel--${tone} ${className}`} aria-hidden="true">
+      <Sprig className="botanical-panel__sprig botanical-panel__sprig--a" />
+      <Sprig className="botanical-panel__sprig botanical-panel__sprig--b" />
+      <Sprig className="botanical-panel__sprig botanical-panel__sprig--c" />
+    </div>
   )
 }

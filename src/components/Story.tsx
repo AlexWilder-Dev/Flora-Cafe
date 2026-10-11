@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { venue } from '../data/contact'
 import { photos } from '../data/photos'
 import { Img } from './Img'
-import { Sprig } from './Botanical'
+import { BotanicalPanel, Sprig } from './Botanical'
 
 export function Story() {
   return (
@@ -15,7 +15,11 @@ export function Story() {
           viewport={{ once: true, margin: '0px 0px -15% 0px' }}
           transition={{ type: 'spring', stiffness: 140, damping: 22 }}
         >
-          <Img name={photos.story.image} alt={photos.story.alt} sizes="(min-width: 960px) 42vw, 100vw" />
+          {photos.story ? (
+            <Img name={photos.story.image} alt={photos.story.alt} sizes="(min-width: 960px) 42vw, 100vw" />
+          ) : (
+            <BotanicalPanel tone="day" className="story__panel" />
+          )}
           <Sprig className="story__sprig" />
         </motion.figure>
 

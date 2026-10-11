@@ -298,8 +298,9 @@ main:focus {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: center;
   text-decoration: none;
-  white-space: nowrap;
+  text-wrap: balance;
   transition:
     background-color 0.25s var(--ease-out),
     color 0.25s var(--ease-out),
@@ -794,7 +795,7 @@ button.chip:hover {
 }
 
 .hero__copy {
-  max-width: 40rem;
+  max-width: 46rem;
 }
 
 .hero__eyebrow {
@@ -942,6 +943,7 @@ button.chip:hover {
    ------------------------------------------------------------------ */
 .story__grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 40px;
 }
 
@@ -1003,6 +1005,7 @@ button.chip:hover {
 
 .day-night__panels {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
 }
 
@@ -1103,6 +1106,7 @@ button.chip:hover {
    Menu
    ------------------------------------------------------------------ */
 .menu-tabs {
+  position: relative;
   display: flex;
   gap: 4px;
   margin: 0 calc(-1 * var(--gutter)) 16px;
@@ -1344,6 +1348,7 @@ button.chip:hover {
 
 .bottomless__layout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 32px;
 }
 
@@ -1366,6 +1371,7 @@ button.chip:hover {
 
 .packages {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   margin: 0;
   padding: 0;
@@ -1479,15 +1485,21 @@ button.chip:hover {
 
   .bottomless__rules {
     grid-column: 1 / -1;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 40px;
+    gap: 48px;
+    padding: 28px 36px;
+  }
+
+  .bottomless__rules-title {
+    margin: 0;
   }
 
   .bottomless__rules ul {
-    flex: 1;
-    display: flex;
-    gap: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 40px;
     margin: 0;
   }
 }
@@ -2199,6 +2211,7 @@ button.chip:hover {
 
 .find-us__grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 40px;
 }
 
@@ -2391,6 +2404,7 @@ button.chip:hover {
 
 .site-footer__grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 40px;
 }
 
@@ -2491,11 +2505,88 @@ button.chip:hover {
   }
 }
 
-/* Ornaments */
-.divider {
-  width: 160px;
-  margin: 0 auto;
-  color: var(--highlight);
+/* ------------------------------------------------------------------
+   Botanical panels (photo slots without a matching photo)
+   ------------------------------------------------------------------ */
+.botanical-panel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+}
+
+.botanical-panel--day {
+  background:
+    radial-gradient(80% 70% at 85% 10%, rgb(250 248 245 / 0.9), transparent 60%),
+    linear-gradient(160deg, var(--linen-100), var(--mist-200));
+  color: var(--sage-500);
+}
+
+.botanical-panel--evening {
+  background:
+    radial-gradient(70% 60% at 80% 15%, rgb(224 162 91 / 0.22), transparent 65%),
+    linear-gradient(160deg, var(--forest-800), var(--forest-950));
+  color: var(--caramel-400);
+}
+
+.botanical-panel__sprig {
+  position: absolute;
+  height: auto;
+}
+
+.botanical-panel__sprig--a {
+  left: -6%;
+  bottom: -14%;
+  width: 46%;
+  transform: rotate(-14deg);
+}
+
+.botanical-panel__sprig--b {
+  right: -4%;
+  top: -12%;
+  width: 40%;
+  transform: rotate(168deg);
+  opacity: 0.7;
+}
+
+.botanical-panel__sprig--c {
+  right: 22%;
+  bottom: -20%;
+  width: 26%;
+  transform: rotate(18deg);
+  opacity: 0.45;
+}
+
+.story__panel {
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 4px;
+}
+
+.mood__panel {
+  aspect-ratio: 5 / 2;
+}
+
+@media (min-width: 900px) {
+  .story__panel {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.booking__panel-art {
+  height: 240px;
+}
+
+@media (min-width: 960px) {
+  .booking__media {
+    position: relative;
+  }
+
+  .booking__panel-art {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

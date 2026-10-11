@@ -6,6 +6,7 @@ import { hoursFor } from '../data/hours'
 import { addDays, bookingSlots, isEveningSlot, londonNow, weekdayOf } from '../lib/time'
 import { formatPrice } from '../lib/format'
 import { photos } from '../data/photos'
+import { BotanicalPanel } from './Botanical'
 import { Img } from './Img'
 import { SectionHeading } from './SectionHeading'
 
@@ -80,7 +81,11 @@ export function Booking() {
   return (
     <section id="book" className="section booking" aria-labelledby="book-title">
       <div className="booking__media" aria-hidden="true">
-        <Img name={photos.booking.image} alt="" sizes="(min-width: 960px) 45vw, 100vw" />
+        {photos.booking ? (
+          <Img name={photos.booking.image} alt="" sizes="(min-width: 960px) 45vw, 100vw" />
+        ) : (
+          <BotanicalPanel tone="evening" className="booking__panel-art" />
+        )}
       </div>
       <div className="booking__panel">
         <SectionHeading id="book-title" eyebrow="Reservations" title="Book a table" />

@@ -159,8 +159,12 @@ export function Menu() {
     setActive(defaultTab)
   }
 
+  // Keep the active tab centred in the strip without scrolling the page.
   useEffect(() => {
-    tabRefs.current[active]?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' })
+    const tab = tabRefs.current[active]
+    const strip = tab?.parentElement
+    if (!tab || !strip || strip.scrollWidth <= strip.clientWidth) return
+    strip.scrollTo({ left: tab.offsetLeft - (strip.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' })
   }, [active])
 
   const category = menu.find((c) => c.id === active)!

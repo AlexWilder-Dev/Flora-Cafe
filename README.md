@@ -36,7 +36,13 @@ npm run images       # make responsive image sizes and regenerate src/data/image
 
 ## Deploying to GitHub Pages
 
-Build with `npm run build` and publish the `dist/` folder, for example with the official `actions/deploy-pages` workflow. Relative asset paths mean it works at `user.github.io/repo/` without extra configuration.
+`.github/workflows/deploy.yml` builds and deploys on every push to `main` (or run it by hand). In the repo settings, set Pages → Source to "GitHub Actions". Relative asset paths mean it works at `user.github.io/repo/` without extra configuration.
+
+## Photos
+
+Photos live in `public/images/` and are placed in `src/data/photos.ts` (sections) and `src/data/gallery.ts` (gallery), each with alt text describing what the photo shows. A slot without a matching photo shows a botanical panel in the brand palette, and the gallery only appears once it has at least three photos.
+
+florasw17.com's CDN rate-limits cloud and CI servers, so only the logo, favicon and one interior photo could be fetched for this build. The white logo is a recolour of the original logo file. To add the rest, run `npm run fetch-assets` and then `npm run images` from your own connection, then assign the photos in the two data files.
 
 ## What's real and what's mock
 
