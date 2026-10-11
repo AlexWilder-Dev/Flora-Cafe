@@ -3,9 +3,9 @@ import { useEffect, useId, useMemo, useState, type FormEvent } from 'react'
 import { BOTTOMLESS_MINUTES, bottomlessIncludes, bottomlessPackages } from '../data/bottomless'
 import { venue } from '../data/contact'
 import { hoursFor } from '../data/hours'
-import { useMode } from '../context/ModeContext'
-import { addDays, bookingSlots, isEveningSlot, londonNow, toMinutes, weekdayOf } from '../lib/time'
+import { addDays, bookingSlots, isEveningSlot, londonNow, weekdayOf } from '../lib/time'
 import { formatPrice } from '../lib/format'
+import { photos } from '../data/photos'
 import { Img } from './Img'
 import { SectionHeading } from './SectionHeading'
 
@@ -33,7 +33,6 @@ interface Confirmed {
 }
 
 export function Booking() {
-  const { mode } = useMode()
   const today = londonNow().isoDate
   const [party, setParty] = useState(2)
   const [date, setDate] = useState(firstBookableDate)
@@ -63,7 +62,6 @@ export function Booking() {
     if (time && !slots.includes(time)) setTime('')
   }, [slots, time])
 
-  const evening = time ? isEveningSlot(date, time) : mode === 'evening' && day.lateBar
   const selectedPkg = bottomlessPackages.find((p) => p.id === pkg)!
 
   function submit(e: FormEvent) {
@@ -84,7 +82,7 @@ export function Booking() {
   return (
     <section id="book" className="section booking" aria-labelledby="book-title">
       <div className="booking__media" aria-hidden="true">
-        <Img name="booktable-02" alt="" sizes="(min-width: 960px) 40vw, 100vw" />
+        <Img name={photos.booking.image} alt="" sizes="(min-width: 960px) 45vw, 100vw" />
       </div>
       <div className="booking__panel">
         <SectionHeading id="book-title" eyebrow="Reservations" title="Book a table" />
@@ -269,9 +267,9 @@ export function Booking() {
                           </label>
                         ))}
                         <p className="field__hint">
-                          {BOTTOMLESS_MINUTES} minutes, with {evening ? bottomlessIncludes.evening : bottomlessIncludes.day}{' '}
-                          {evening ? '' : 'each'}. The whole table takes part
-                          {party > 1 ? ` (${party} × ${formatPrice(selectedPkg.price)})` : ''}. Times shown leave a full{' '}
+                          {BOTTOMLESS_MINUTES} minutes per person, including {bottomlessIncludes.day.toLowerCase()} by day or{' '}
+                          {bottomlessIncludes.evening.toLowerCase()} in the evening. The whole table takes part
+                          {party > 1 ? ` (${party} × ${formatPrice(selectedPkg.price)})` : ''}. Times shown leave the full{' '}
                           {BOTTOMLESS_MINUTES} minutes before closing.
                         </p>
                       </div>
@@ -336,7 +334,7 @@ export function Booking() {
                 {time ? ` at ${time}` : ''}
               </button>
               <p className="field__hint field__hint--center">
-                {toMinutes(day.close) > toMinutes('16:00') ? 'Brunch until 4pm, then tapas & cocktails.' : 'Brunch all day until close.'}
+                {day.lateBar ? 'Brunch until 4pm, then tapas & cocktails.' : 'Brunch is served all day until close.'}
               </p>
             </motion.form>
           )}
