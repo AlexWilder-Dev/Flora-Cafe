@@ -36,7 +36,7 @@ npm run images       # make responsive image sizes and regenerate src/data/image
 
 ## Deploying to GitHub Pages
 
-`.github/workflows/deploy.yml` builds and deploys on every push to `main` (or run it by hand). In the repo settings, set Pages → Source to "GitHub Actions". Relative asset paths mean it works at `user.github.io/repo/` without extra configuration.
+`.github/workflows/deploy.yml` builds and deploys on every push to the default branch (or run it by hand). In the repo settings, set Pages → Source to "GitHub Actions". Relative asset paths mean it works at `user.github.io/repo/` without extra configuration.
 
 ## Photos
 
