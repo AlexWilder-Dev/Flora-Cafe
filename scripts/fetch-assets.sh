@@ -30,7 +30,12 @@ fetch() {
   local url="$1" dest="$2" code attempt
   for attempt in 1 2 3 4 5; do
     sleep "$DELAY"
-    code=$(curl -sS -L -A "$UA" --connect-timeout 15 --max-time 120 -o "$dest.part" -w '%{http_code}' "$url" || echo 000)
+    code=$(curl -sS -L -A "$UA" \
+      -H 'Accept: image/avif,image/webp,image/apng,image/*,*/*;q=0.8' \
+      -H 'Accept-Language: en-GB,en;q=0.9' \
+      -H 'Referer: https://florasw17.com/' \
+      -H 'Sec-Fetch-Dest: image' -H 'Sec-Fetch-Mode: no-cors' -H 'Sec-Fetch-Site: same-origin' \
+      --connect-timeout 15 --max-time 120 -o "$dest.part" -w '%{http_code}' "$url" || echo 000)
     if [[ "$code" == 200 ]]; then
       mv "$dest.part" "$dest"
       return 0

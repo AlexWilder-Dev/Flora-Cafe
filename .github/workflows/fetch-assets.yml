@@ -19,12 +19,20 @@ jobs:
     timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
-      - name: Download images (paced to respect the host's rate limit)
-        timeout-minutes: 45
+      - name: Probe one image request
+        run: |
+          curl -sS -D - -o /tmp/probe.bin -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" \
+            -H 'Accept: image/avif,image/webp,image/apng,image/*,*/*;q=0.8' -H 'Referer: https://florasw17.com/' \
+            -H 'Sec-Fetch-Dest: image' -H 'Sec-Fetch-Mode: no-cors' -H 'Sec-Fetch-Site: same-origin' \
+            https://florasw17.com/wp-content/uploads/2026/07/booktable-02.webp || true
+          head -c 600 /tmp/probe.bin | strings | head -20 || true
+      - name: Download images
+        timeout-minutes: 40
         env:
-          DELAY: '20'
+          DELAY: '12'
         run: bash scripts/fetch-assets.sh || true
       - name: Commit images
+        if: always()
         run: |
           ls -la public/images
           git config user.name "AlexWilder-Dev"
