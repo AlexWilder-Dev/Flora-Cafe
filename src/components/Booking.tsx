@@ -6,7 +6,6 @@ import { hoursFor } from '../data/hours'
 import { addDays, bookingSlots, isEveningSlot, londonNow, weekdayOf } from '../lib/time'
 import { formatPrice } from '../lib/format'
 import { photos } from '../data/photos'
-import { BotanicalPanel } from './Botanical'
 import { Img } from './Img'
 import { SectionHeading } from './SectionHeading'
 
@@ -81,14 +80,18 @@ export function Booking() {
   return (
     <section id="book" className="section booking" aria-labelledby="book-title">
       <div className="booking__media" aria-hidden="true">
-        {photos.booking ? (
-          <Img name={photos.booking.image} alt="" sizes="(min-width: 960px) 45vw, 100vw" />
-        ) : (
-          <BotanicalPanel tone="evening" className="booking__panel-art" />
-        )}
+        <Img name={photos.booking.image} alt="" sizes="(min-width: 960px) 45vw, 100vw" />
       </div>
       <div className="booking__panel">
-        <SectionHeading id="book-title" eyebrow="Reservations" title="Book a table" />
+        <SectionHeading
+          id="book-title"
+          eyebrow="Reserve your table"
+          title={
+            <>
+              Your table <em>awaits</em>
+            </>
+          }
+        />
         <p className="demo-note" role="note">
           Demo only: this form doesn’t send anything. To book for real, email{' '}
           <a href={`mailto:${venue.email}`}>{venue.email}</a> or call <a href={venue.phoneHref}>{venue.phone}</a>.

@@ -1,19 +1,26 @@
-import type { ImageName } from './images'
+import { library, type Photo } from './photos'
 
-export interface GalleryItem {
-  image: ImageName
-  alt: string
-  shape?: 'square' | 'tall' | 'wide'
-}
+export type GalleryItem = Photo
 
-/** Flora's own photos, in display order. Alt text describes what each photo shows. */
+/** Flora's own photos, in display order (mixing daytime and evening). */
 export const gallery: GalleryItem[] = [
-  {
-    image: 'florasw17_15',
-    alt: 'Flora’s counter under the hand-painted FLORA sign, with pink blossom, rattan pendant lamps and a reclaimed-wood bar.',
-    shape: 'tall',
-  },
+  library.blossomRoom,
+  library.salmon,
+  library.latte,
+  library.cocktails,
+  library.benedict,
+  library.counter,
+  library.spread,
+  library.hotChocolate,
+  library.pergola,
+  library.toasts,
+  library.burrito,
+  library.pineappleCocktail,
+  library.caesar,
+  library.fullFarmer,
+  library.steakSandwich,
+  library.blt,
+  library.veggieAndWine,
 ]
 
-/** The gallery section only appears once there are enough photos to make a grid. */
 export const showGallery = gallery.length >= 3

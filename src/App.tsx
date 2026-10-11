@@ -11,6 +11,7 @@ import { Gallery } from './components/Gallery'
 import { showGallery } from './data/gallery'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
+import { Marquee } from './components/Marquee'
 import { Menu } from './components/Menu'
 import { Story } from './components/Story'
 
@@ -25,6 +26,7 @@ export default function App() {
         <main id="main" tabIndex={-1}>
           <div id="top" />
           <Hero />
+          <Marquee />
           <Story />
           <DayNight />
           <Menu />

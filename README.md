@@ -38,13 +38,17 @@ npm run images       # make responsive image sizes and regenerate src/data/image
 
 `.github/workflows/deploy.yml` builds and deploys on every push to the default branch (or run it by hand). In the repo settings, set Pages → Source to "GitHub Actions". Relative asset paths mean it works at `user.github.io/repo/` without extra configuration.
 
+## Look and feel
+
+- **Golden Daylight** uses Flora's own site kit: cream `#F6F2EC`, linen `#EEEAE2`, forest ink `#141D13`, fern green `#465D40` for buttons and sage `#556B4F` for italic accents, with a rattan brown `#905D3B` sampled from their lamp photos for labels.
+- **Evening Spark** is sampled from their night photos: navy `#0D2044` and indigo `#1D2343` from the walls, blossom pink `#D395BB` from the canopy and lamp amber `#E6AD6B` for buttons.
+- Type is Cormorant Garamond (display) and Montserrat (text), as on florasw17.com.
+
 ## Photos
 
-Photos live in `public/images/` and are placed in `src/data/photos.ts` (sections) and `src/data/gallery.ts` (gallery), each with alt text describing what the photo shows. A slot without a matching photo shows a botanical panel in the brand palette, and the gallery only appears once it has at least three photos.
-
-florasw17.com's CDN rate-limits cloud and CI servers, so only the logo, favicon and one interior photo could be fetched for this build. The white logo is a recolour of the original logo file. To add the rest, run `npm run fetch-assets` and then `npm run images` from your own connection, then assign the photos in the two data files.
+All photography is Flora's own, from florasw17.com, stored in `public/images/`. `src/data/photos.ts` decides which photo appears in each section, with alt text written from what each photo shows; `src/data/gallery.ts` sets the gallery order. `npm run fetch-assets` re-downloads the originals and `npm run images` regenerates the smaller responsive copies.
 
 ## What's real and what's mock
 
-- **Real:** menu items and prices, hours, address, contact details, bottomless packages, photos and logo (all from Flora's site), and the Deliveroo, Uber Eats, Instagram and Google Maps links.
+- **Real:** menu items and prices, hours, address, contact details, bottomless packages, photos, logos and partner badges (all from Flora's site), and the Deliveroo, Uber Eats, Instagram and Google Maps links.
 - **Mock:** the booking form. It checks the input and shows a confirmation, but nothing is sent anywhere.

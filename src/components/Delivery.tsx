@@ -1,26 +1,37 @@
 import { delivery } from '../data/contact'
 import { SectionHeading } from './SectionHeading'
 
+const base = import.meta.env.BASE_URL
+
+const LOGOS: Record<string, string> = {
+  Deliveroo: 'order-deliveroo.webp',
+  'Uber Eats': 'order-uber.webp',
+}
+
 export function Delivery() {
   return (
     <section id="delivery" className="section delivery" aria-labelledby="delivery-title">
-      <div className="container delivery__inner">
+      <div className="container delivery__grid">
         <SectionHeading
           id="delivery-title"
-          eyebrow="Order at home"
-          title="Flora, delivered"
-          intro="Enjoy our cosy brunch dishes delivered to your door. Craving an açaí bowl or a piping-hot Fully Loaded Burrito? Settle back and order from our delivery partners."
-          align="center"
+          eyebrow="Flora at home"
+          title={
+            <>
+              Savour Flora <em>wherever you are</em>
+            </>
+          }
+          intro="Craving an açaí bowl or a piping-hot Fully Loaded Burrito? Settle back and order from our delivery partners."
         />
         <ul className="delivery__links">
           {delivery.map((d) => (
             <li key={d.name}>
-              <a className="btn btn--outline btn--lg" href={d.url} target="_blank" rel="noopener noreferrer">
-                Order on {d.name}
+              <a className="delivery__card" href={d.url} target="_blank" rel="noopener noreferrer">
+                <img src={`${base}images/${LOGOS[d.name]}`} alt="" width="512" height="512" loading="lazy" />
+                <span className="delivery__name">Order on {d.name}</span>
+                <span className="delivery__arrow" aria-hidden="true">
+                  →
+                </span>
                 <span className="visually-hidden"> (opens in a new tab)</span>
-                <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                  <path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                </svg>
               </a>
             </li>
           ))}

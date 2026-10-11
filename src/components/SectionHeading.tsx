@@ -11,7 +11,7 @@ interface Props {
 export function SectionHeading({ id, eyebrow, title, intro, align = 'start' }: Props) {
   return (
     <header className={`section-heading section-heading--${align}`}>
-      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+      {eyebrow && <p className="eyebrow eyebrow--rule">{eyebrow}</p>}
       <h2 id={id} className="section-title">
         {title}
       </h2>

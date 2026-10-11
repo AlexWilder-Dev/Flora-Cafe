@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 # Downloads Flora's own brand assets and photos from florasw17.com into public/images/.
 # Each entry is "local-name|primary-path|fallback-path" (fallback optional).
-# Run it from a home or office connection: the site's CDN answers 429 to cloud and CI IPs.
 # Requests are spaced out (DELAY seconds) and 429s back off. SKIP_EXISTING=1 keeps files already present.
 set -uo pipefail
 
 BASE="https://florasw17.com/wp-content/uploads"
 OUT="$(cd "$(dirname "$0")/.." && pwd)/public/images"
-UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 DELAY="${DELAY:-2}"
 SKIP_EXISTING="${SKIP_EXISTING:-0}"
 mkdir -p "$OUT"
@@ -17,11 +16,8 @@ assets=(
   "logo-flora-white.webp|2025/12/logo-flora-white.webp|2025/12/logo-flora-white-300x61.webp"
   "favicon.webp|2024/01/favicon2-300x300.webp|"
   "about.webp|2026/06/about.webp|2026/06/about-864x1024.webp"
-  "bottomless-02.webp|2026/07/bottonless-02.webp|"
-  "bottomless-03.webp|2026/07/bottonless-03.webp|"
-  "bottomless-baixo2.webp|2026/07/bottonless-baixo2.webp|2026/07/bottonless-baixo2-855x1024.webp"
-  "booktable-02.webp|2026/07/booktable-02.webp|"
-  "booktable-03.webp|2026/07/booktable-03.webp|"
+  "order-deliveroo.webp|2026/07/order-deliveroo.webp|"
+  "order-uber.webp|2026/07/order-uber.webp|"
 )
 for n in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 17 18; do
   assets+=("florasw17_${n}.webp|2026/07/florasw17_${n}.webp|")
@@ -32,12 +28,7 @@ fetch() {
   local url="$1" dest="$2" code attempt
   for attempt in 1 2 3 4 5; do
     sleep "$DELAY"
-    code=$(curl -sS -L -A "$UA" \
-      -H 'Accept: image/avif,image/webp,image/apng,image/*,*/*;q=0.8' \
-      -H 'Accept-Language: en-GB,en;q=0.9' \
-      -H 'Referer: https://florasw17.com/' \
-      -H 'Sec-Fetch-Dest: image' -H 'Sec-Fetch-Mode: no-cors' -H 'Sec-Fetch-Site: same-origin' \
-      --connect-timeout 15 --max-time 120 -o "$dest.part" -w '%{http_code}' "$url" || echo 000)
+    code=$(curl -sS -L -A "$UA" --connect-timeout 15 --max-time 120 -o "$dest.part" -w '%{http_code}' "$url" || echo 000)
     if [[ "$code" == 200 ]]; then
       mv "$dest.part" "$dest"
       return 0

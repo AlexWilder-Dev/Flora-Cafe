@@ -9,7 +9,7 @@ import sharp from 'sharp'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dir = path.join(root, 'public/images')
 const WIDTHS = [480, 960]
-const SKIP = /^(logo-|favicon)|-\d+\.webp$/
+const SKIP = /^(logo-|favicon|order-)|-\d+\.webp$/
 
 const files = (await readdir(dir)).filter((f) => f.endsWith('.webp') && !SKIP.test(f)).sort((a, b) =>
   a.localeCompare(b, 'en', { numeric: true }),

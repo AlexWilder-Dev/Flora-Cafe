@@ -2,7 +2,9 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { menu, menuNotes, type CategoryId, type Diet, type MenuGroup, type MenuItem } from '../data/menu'
 import { useMode } from '../context/mode'
+import { menuPhotos } from '../data/photos'
 import { formatPrice } from '../lib/format'
+import { Img } from './Img'
 import { SectionHeading } from './SectionHeading'
 
 type DietFilter = 'all' | Diet
@@ -168,6 +170,7 @@ export function Menu() {
   }, [active])
 
   const category = menu.find((c) => c.id === active)!
+  const photo = menuPhotos[active]
   const visibleCount = useMemo(
     () => category.groups.reduce((n, g) => n + g.items.filter((i) => matches(i, filter)).length, 0),
     [category, filter],
@@ -192,8 +195,18 @@ export function Menu() {
         <SectionHeading
           id="menu-title"
           eyebrow="The menu"
-          title={mode === 'evening' ? 'Tapas, cocktails & more' : 'Brunch, coffee & more'}
-          intro="Morning specialties, hearty brunch, açaí bowls, Spanish tapas and a cocktail list for later."
+          title={
+            mode === 'evening' ? (
+              <>
+                Tapas, cocktails <em>&amp; more</em>
+              </>
+            ) : (
+              <>
+                Brunch, coffee <em>&amp; more</em>
+              </>
+            )
+          }
+          intro="Morning specialties, hearty brunch, nourishing açaí bowls, Spanish tapas and a cocktail list for later."
         />
 
         <LayoutGroup id="menu-tabs">
@@ -253,14 +266,23 @@ export function Menu() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
-              {category.intro && <p className="menu-panel__intro">{category.intro}</p>}
-              {visibleCount === 0 ? (
-                <p className="menu-panel__empty">
-                  Nothing {filter === 'VG' ? 'vegan' : 'vegetarian'} in {category.label} — try another section.
-                </p>
-              ) : (
-                category.groups.map((g, i) => <Group key={g.title ?? i} group={g} filter={filter} />)
-              )}
+              <div className={`menu-panel__layout${photo ? ' has-photo' : ''}`}>
+                {photo && (
+                  <figure className="menu-panel__photo">
+                    <Img name={photo.image} alt={photo.alt} sizes="(min-width: 960px) 30vw, 92vw" />
+                  </figure>
+                )}
+                <div className="menu-panel__list">
+                  {category.intro && <p className="menu-panel__intro">{category.intro}</p>}
+                  {visibleCount === 0 ? (
+                    <p className="menu-panel__empty">
+                      Nothing {filter === 'VG' ? 'vegan' : 'vegetarian'} in {category.label} — try another section.
+                    </p>
+                  ) : (
+                    category.groups.map((g, i) => <Group key={g.title ?? i} group={g} filter={filter} />)
+                  )}
+                </div>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>

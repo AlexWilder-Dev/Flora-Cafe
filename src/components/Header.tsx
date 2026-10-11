@@ -1,15 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { showGallery } from '../data/gallery'
 import { ModeSwitch } from './ModeSwitch'
 
 const NAV = [
+  { href: '#story', label: 'Our story' },
   { href: '#menu', label: 'Menu' },
   { href: '#bottomless', label: 'Bottomless' },
   { href: '#evenings', label: 'Evenings' },
   { href: '#gallery', label: 'Gallery' },
   { href: '#find-us', label: 'Find us' },
-].filter((n) => n.href !== '#gallery' || showGallery)
+]
 
 const base = import.meta.env.BASE_URL
 
@@ -18,7 +18,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
+    const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -39,8 +39,8 @@ export function Header() {
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
       <div className="site-header__bar">
         <a className="site-header__logo" href="#top" aria-label="Flora SW17, back to top">
-          <img src={`${base}images/logo-flora.webp`} alt="" width="150" height="31" className="logo logo--ink" />
-          <img src={`${base}images/logo-flora-white.webp`} alt="" width="150" height="31" className="logo logo--white" />
+          <img src={`${base}images/logo-flora.webp`} alt="" width="600" height="121" className="logo logo--ink" />
+          <img src={`${base}images/logo-flora-white.webp`} alt="" width="600" height="121" className="logo logo--light" />
         </a>
 
         <nav className="site-nav" aria-label="Main">
@@ -56,7 +56,7 @@ export function Header() {
         <div className="site-header__actions">
           <ModeSwitch />
           <a className="btn btn--primary btn--sm site-header__book" href="#book">
-            Book
+            Book a table
           </a>
           <button
             type="button"
@@ -78,18 +78,18 @@ export function Header() {
             id="mobile-nav"
             className="mobile-nav"
             aria-label="Main"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 34 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
           >
             <ul>
               {[...NAV, { href: '#book', label: 'Book a table' }].map((n, i) => (
                 <motion.li
                   key={n.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ type: 'spring', stiffness: 380, damping: 30, delay: 0.03 * i }}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ type: 'spring', stiffness: 320, damping: 30, delay: 0.04 * i }}
                 >
                   <a href={n.href} onClick={() => setOpen(false)}>
                     {n.label}
@@ -97,6 +97,7 @@ export function Header() {
                 </motion.li>
               ))}
             </ul>
+            <p className="mobile-nav__foot">Unit 22a, Tooting Market · SW17</p>
           </motion.nav>
         )}
       </AnimatePresence>
