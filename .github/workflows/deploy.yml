@@ -2,7 +2,6 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, claude/flora-cafe-demo-7dri2b]
   workflow_dispatch:
 
 permissions:
@@ -16,6 +15,8 @@ concurrency:
 
 jobs:
   build:
+    # Deploy whatever is on the repository's default branch.
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
