@@ -1,15 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { flushSync } from 'react-dom'
 import { defaultMode, type Mode } from '../lib/time'
 import { springEasing } from '../lib/spring'
-
-interface ModeContextValue {
-  mode: Mode
-  /** Switch mode; `origin` is the viewport point the new theme grows from. */
-  setMode: (mode: Mode, origin?: { x: number; y: number }) => void
-}
-
-const ModeContext = createContext<ModeContextValue | null>(null)
+import { ModeContext } from './mode'
 
 const reveal = springEasing({ stiffness: 90, damping: 20 })
 
@@ -58,10 +51,4 @@ export function ModeProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(() => ({ mode, setMode }), [mode, setMode])
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>
-}
-
-export function useMode() {
-  const ctx = useContext(ModeContext)
-  if (!ctx) throw new Error('useMode must be used inside ModeProvider')
-  return ctx
 }

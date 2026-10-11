@@ -9,7 +9,7 @@ export function Delivery() {
           id="delivery-title"
           eyebrow="Order at home"
           title="Flora, delivered"
-          intro="Brunch favourites brought to your door across Tooting."
+          intro="Enjoy our cosy brunch dishes delivered to your door. Craving an açaí bowl or a piping-hot Fully Loaded Burrito? Settle back and order from our delivery partners."
           align="center"
         />
         <ul className="delivery__links">

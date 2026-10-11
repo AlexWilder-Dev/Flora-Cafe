@@ -502,6 +502,7 @@ export const menu: MenuCategory[] = [
     service: 'evening',
     groups: [
       {
+        title: 'Signature cocktails',
         price: 9.5,
         priceLabel: 'each',
         items: [

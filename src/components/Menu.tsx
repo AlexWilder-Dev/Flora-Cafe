@@ -1,7 +1,7 @@
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { menu, menuNotes, type CategoryId, type Diet, type MenuGroup, type MenuItem } from '../data/menu'
-import { useMode } from '../context/ModeContext'
+import { useMode } from '../context/mode'
 import { formatPrice } from '../lib/format'
 import { SectionHeading } from './SectionHeading'
 
@@ -23,7 +23,8 @@ function DietTag({ diet }: { diet: Diet }) {
   )
 }
 
-function Dish({ item, groupPrice }: { item: MenuItem; groupPrice?: number }) {
+function Dish({ item, groupPrice, nested }: { item: MenuItem; groupPrice?: number; nested: boolean }) {
+  const Name = nested ? 'h4' : 'h3'
   const [picked, setPicked] = useState<string[]>([])
   const base = item.price ?? groupPrice
   const extra = (item.addOns ?? []).filter((a) => picked.includes(a.name)).reduce((s, a) => s + (a.price ?? 0), 0)
@@ -42,10 +43,10 @@ function Dish({ item, groupPrice }: { item: MenuItem; groupPrice?: number }) {
       transition={{ type: 'spring', stiffness: 320, damping: 30 }}
     >
       <div className="dish__head">
-        <h4 className="dish__name">
+        <Name className="dish__name">
           {item.name}
           {item.diet && <DietTag diet={item.diet} />}
-        </h4>
+        </Name>
         <span className="dish__leader" aria-hidden="true" />
         {item.prices ? (
           <span className="dish__prices">
@@ -99,11 +100,12 @@ function Group({ group, filter }: { group: MenuGroup; filter: DietFilter }) {
   const items = group.items.filter((i) => matches(i, filter))
   if (items.length === 0) return null
   const compact = items.every((i) => !i.description && !i.addOns && !i.prices)
+  const titled = Boolean(group.title || group.price)
   return (
     <div className="menu-group">
-      {(group.title || group.price) && (
+      {titled && (
         <h3 className="menu-group__title">
-          {group.title ?? 'All'}
+          {group.title}
           {group.price !== undefined && (
             <span className="menu-group__price">
               {formatPrice(group.price)} {group.priceLabel}
@@ -114,7 +116,7 @@ function Group({ group, filter }: { group: MenuGroup; filter: DietFilter }) {
       <ul className={`dishes${compact ? ' dishes--compact' : ''}`}>
         <AnimatePresence initial={false}>
           {items.map((i) => (
-            <Dish key={i.name} item={i} groupPrice={group.price} />
+            <Dish key={i.name} item={i} groupPrice={group.price} nested={titled} />
           ))}
         </AnimatePresence>
       </ul>
@@ -148,10 +150,14 @@ export function Menu() {
   const defaultTab: CategoryId = mode === 'evening' ? 'tapas' : 'breakfast'
   const [active, setActive] = useState<CategoryId>(defaultTab)
   const [filter, setFilter] = useState<DietFilter>('all')
+  const [tabsMode, setTabsMode] = useState(mode)
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({})
 
   // Re-open on the mode's signature tab whenever Day / Evening flips.
-  useEffect(() => setActive(defaultTab), [defaultTab])
+  if (tabsMode !== mode) {
+    setTabsMode(mode)
+    setActive(defaultTab)
+  }
 
   useEffect(() => {
     tabRefs.current[active]?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' })

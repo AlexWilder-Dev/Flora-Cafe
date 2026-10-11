@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import type { MouseEvent } from 'react'
 import { photos } from '../data/photos'
-import { useMode } from '../context/ModeContext'
+import { useMode } from '../context/mode'
 import type { Mode } from '../lib/time'
 import { Img } from './Img'
 

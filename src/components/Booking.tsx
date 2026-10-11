@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useId, useMemo, useState, type FormEvent } from 'react'
+import { useId, useMemo, useState, type FormEvent } from 'react'
 import { BOTTOMLESS_MINUTES, bottomlessIncludes, bottomlessPackages } from '../data/bottomless'
 import { venue } from '../data/contact'
 import { hoursFor } from '../data/hours'
@@ -57,20 +57,18 @@ export function Booking() {
     ].filter((g) => g.slots.length > 0)
   }, [slots, date, day.lateBar])
 
-  // Drop a chosen time that is no longer offered (new date, or Bottomless trimmed the day).
-  useEffect(() => {
-    if (time && !slots.includes(time)) setTime('')
-  }, [slots, time])
+  // A chosen time that is no longer offered (new date, or Bottomless trimmed the day) counts as unset.
+  const chosen = slots.includes(time) ? time : ''
 
   const selectedPkg = bottomlessPackages.find((p) => p.id === pkg)!
 
   function submit(e: FormEvent) {
     e.preventDefault()
-    if (!time) return setError('Pick a time to continue.')
+    if (!chosen) return setError('Pick a time to continue.')
     if (!name.trim()) return setError('Add a name for the booking.')
     if (!phone.trim()) return setError('Add a phone number so the team could reach you.')
     setError('')
-    setConfirmed({ name: name.trim(), party, date, time, packageName: bottomless ? selectedPkg.name : undefined })
+    setConfirmed({ name: name.trim(), party, date, time: chosen, packageName: bottomless ? selectedPkg.name : undefined })
   }
 
   function reset() {
@@ -214,7 +212,7 @@ export function Booking() {
                               type="radio"
                               name="time"
                               value={s}
-                              checked={time === s}
+                              checked={chosen === s}
                               onChange={() => setTime(s)}
                             />
                             <span>{s}</span>
@@ -331,7 +329,7 @@ export function Booking() {
 
               <button type="submit" className="btn btn--primary btn--block">
                 Request {party} {party === 1 ? 'seat' : 'seats'}
-                {time ? ` at ${time}` : ''}
+                {chosen ? ` at ${chosen}` : ''}
               </button>
               <p className="field__hint field__hint--center">
                 {day.lateBar ? 'Brunch until 4pm, then tapas & cocktails.' : 'Brunch is served all day until close.'}

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { MouseEvent } from 'react'
-import { useMode } from '../context/ModeContext'
+import { useMode } from '../context/mode'
 import type { Mode } from '../lib/time'
 
 const OPTIONS: { mode: Mode; label: string; short: string }[] = [

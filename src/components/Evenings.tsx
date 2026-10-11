@@ -26,7 +26,7 @@ export function Evenings() {
           id="evenings-title"
           eyebrow="Evenings at Flora"
           title="Cocktails, wine & live beats"
-          intro="From Thursday to Saturday the lights go low and the candles come out: Spanish tapas, a full bar and music until late."
+          intro="Thursday to Saturday, Flora becomes an intimate candle-lit bar: Spanish tapas, cocktails, crisp wines and live music until 23:30."
         />
 
         <ul className="evenings__highlights">

@@ -10,19 +10,19 @@ export const BOTTOMLESS_MINUTES = 90
 export const bottomlessPackages: BottomlessPackage[] = [
   {
     id: 'prosecco-beer',
-    name: 'Prosecco & Beer',
+    name: 'Prosecco & Bottled Beer',
     price: 29.9,
     drinks: ['Prosecco', 'Bottled beer'],
   },
   {
     id: 'house-wine',
-    name: 'House Wine',
+    name: 'Red, White or Rosé Wine',
     price: 29.9,
     drinks: ['Red house wine', 'White house wine', 'Rosé house wine'],
   },
   {
     id: 'prosecco-cocktails',
-    name: 'Prosecco & Cocktails',
+    name: 'Prosecco & Signature Cocktails',
     price: 34.9,
     drinks: ['Mojito', 'Aperol Spritz', 'Mimosa', 'Pornstar Martini', 'Prosecco', 'Bottled beer'],
   },
@@ -37,4 +37,5 @@ export const bottomlessRules = [
   `${BOTTOMLESS_MINUTES} minutes of free-flowing drinks, per person.`,
   'The whole table must take part.',
   'Mocktails available on request.',
+  'Please tell our team about any allergies or dietary requirements before ordering.',
 ]
