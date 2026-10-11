@@ -1,39 +1,33 @@
-name: Fetch Flora source material
+name: Fetch Flora images
 
 on:
   push:
     branches: [claude/flora-cafe-demo-7dri2b]
-    paths: [.github/workflows/fetch-assets.yml, .github/fetch/**, scripts/fetch-assets.sh]
+    paths: [.github/workflows/fetch-assets.yml, scripts/fetch-assets.sh]
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: fetch-assets
+  cancel-in-progress: true
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
-      - name: Probe
-        run: |
-          getent hosts florasw17.com || true
-          curl -sS -o /dev/null -m 30 -A "Mozilla/5.0" -w "home %{http_code} %{time_total}s %{remote_ip}\n" https://florasw17.com/ || true
-          curl -sS -o /dev/null -m 30 -A "Mozilla/5.0" -w "logo %{http_code} %{size_download}b\n" https://florasw17.com/wp-content/uploads/2024/01/logo-flora.webp || true
-      - name: Download images
-        timeout-minutes: 8
+      - name: Download images (paced to respect the host's rate limit)
+        timeout-minutes: 45
+        env:
+          DELAY: '20'
         run: bash scripts/fetch-assets.sh || true
-      - name: Image sizes
-        run: ls -la public/images || true
-      - name: Brand CSS
-        run: python3 .github/fetch/dump.py brand || true
-      - name: Page copy and menu
-        run: python3 .github/fetch/dump.py pages || true
-      - name: OpenTable and Deliveroo
-        run: python3 .github/fetch/dump.py thirdparty || true
       - name: Commit images
         run: |
+          ls -la public/images
           git config user.name "AlexWilder-Dev"
           git config user.email "a.wilder196@gmail.com"
           git add public/images
-          if git diff --cached --quiet; then echo "no images"; else git commit -m "Add Flora's logo, favicon and photos from florasw17.com" && git push; fi
+          if git diff --cached --quiet; then echo "no new images"; else git commit -m "Add remaining Flora photos from florasw17.com" && git pull --rebase && git push; fi
