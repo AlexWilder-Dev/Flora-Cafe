@@ -25,7 +25,7 @@ done
 
 fetch() {
   local url="$1" dest="$2"
-  curl -fsSL -A "$UA" --retry 3 --retry-delay 2 -o "$dest" "$url"
+  curl -fsSL -A "$UA" --connect-timeout 15 --max-time 90 --retry 2 --retry-delay 2 -o "$dest" "$url"
 }
 
 failed=0
