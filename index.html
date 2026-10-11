@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-GB" data-mode="day">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Flora SW17 · Brunch by day, tapas & cocktails by night · Tooting Market</title>
+    <meta
+      name="description"
+      content="Flora is a hidden gem inside Tooting Market: specialty coffee, açaí bowls and brunch by day; candle-lit Spanish tapas, cocktails and live music Thursday to Saturday nights."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/webp" href="./images/favicon.webp" />
+    <link rel="apple-touch-icon" href="./images/favicon.webp" />
+    <meta property="og:title" content="Flora SW17 · Tooting Market" />
+    <meta property="og:description" content="Brunch by day, tapas & cocktails by night, inside Tooting Market." />
+    <meta property="og:type" content="website" />
+    <script>
+      // Pick Day / Evening before first paint so the page never flashes the wrong theme.
+      ;(function () {
+        try {
+          var p = {}
+          new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short', hour: '2-digit', hourCycle: 'h23' })
+            .formatToParts(new Date())
+            .forEach(function (x) { p[x.type] = x.value })
+          var late = p.weekday === 'Thu' || p.weekday === 'Fri' || p.weekday === 'Sat'
+          document.documentElement.dataset.mode = late && Number(p.hour) >= 16 ? 'evening' : 'day'
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

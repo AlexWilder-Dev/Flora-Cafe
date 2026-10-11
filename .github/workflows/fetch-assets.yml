@@ -1,0 +1,32 @@
+name: Fetch Flora source material
+
+on:
+  push:
+    branches: [claude/flora-cafe-demo-7dri2b]
+    paths: [.github/workflows/fetch-assets.yml, .github/fetch/**, scripts/fetch-assets.sh]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download images
+        run: bash scripts/fetch-assets.sh || true
+      - name: Image sizes
+        run: ls -la public/images || true
+      - name: Brand CSS
+        run: python3 .github/fetch/dump.py brand || true
+      - name: Page copy and menu
+        run: python3 .github/fetch/dump.py pages || true
+      - name: OpenTable and Deliveroo
+        run: python3 .github/fetch/dump.py thirdparty || true
+      - name: Commit images
+        run: |
+          git config user.name "AlexWilder-Dev"
+          git config user.email "a.wilder196@gmail.com"
+          git add public/images
+          if git diff --cached --quiet; then echo "no images"; else git commit -m "Add Flora's logo, favicon and photos from florasw17.com" && git push; fi
